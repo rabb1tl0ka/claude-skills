@@ -1,0 +1,2 @@
+# Ignore cached calendar files (they're regenerated as needed)
+*.ics
