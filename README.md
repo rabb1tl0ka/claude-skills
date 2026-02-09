@@ -58,71 +58,11 @@ Query your Google Calendar for events, availability, scheduling conflicts, and m
 
 ---
 
-### `/voice_note`
+## Related Projects
 
-Record voice notes using automatic silence detection and save to vault inbox.
+### Voice Skills
 
-**Features:**
-- Automatic silence detection (~1.5s pause stops recording)
-- Transcription via Whisper
-- Save to current vault or specify target vault
-- Custom titles or timestamp-based filenames
-
-**Setup:**
-
-Requires [MCP-voice server](https://github.com/your-repo/MCP-voice) configured with voice-tools.
-
-**Usage:**
-```
-/voice_note
-/voice_note "meeting notes"
-/voice_note loka2026 "daily reflection"
-```
-
----
-
-### `/voice_prompt`
-
-Record your voice and execute the transcription as a prompt for Claude.
-
-**Features:**
-- Speak commands instead of typing
-- Automatic transcription and execution
-- Hands-free Claude interaction
-
-**Setup:**
-
-Requires MCP-voice server.
-
-**Usage:**
-```
-/voice_prompt
-[Speak: "Create a new note about quantum computing"]
-[Claude executes the spoken command]
-```
-
----
-
-### `/listen_start` & `/listen_stop`
-
-Record desktop audio (speakers/headphones) for meeting notes, video summaries, etc.
-
-**Features:**
-- Background recording of desktop audio output
-- Full transcription with timestamps
-- AI-generated summary
-- Saved to inbox with both summary and full transcript
-
-**Setup:**
-
-Requires MCP-voice server with PulseAudio loopback configured.
-
-**Usage:**
-```
-/listen_start    # Start recording desktop audio
-[... attend meeting, watch video, etc ...]
-/listen_stop     # Stop, transcribe, summarize, save to inbox
-```
+Looking for voice recording, transcription, and AI-first note-taking? Check out **[claude-voice](https://github.com/rabb1tl0ka/claude-voice)** - a complete voice interface system with MCP server, voice tools, and skills for `/voice_note`, `/voice_prompt`, `/listen_start`, and `/listen_stop`.
 
 ---
 
