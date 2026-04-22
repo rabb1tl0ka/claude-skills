@@ -30,7 +30,9 @@ Items start as flat files and grow into workspace directories when they need sup
 | File                        | Status      | Priority | Owner | One-Line Overview |
 |-----------------------------|-------------|----------|-------|-------------------|
 | [feat-check-update/](feat-check-update/feat-check-update.md) | ⏳ todo | medium | | A script installed into target repos that checks the local `.roadmap-version` against the latest GitHub release tag and tells the dev whether an upgrade is available. |
+| [idea-refresh-user/](idea-refresh-user/idea-refresh-user.md) | ⏳ todo | medium | | A skill that recompiles `user.md` by reading the raw vault directories (goals, challenges, growth-plan) so the user profile stays current as the person evolves. |
 | [idea-test-repo/](idea-test-repo/idea-test-repo.md) | ⏳ todo | medium | | Create a real GitHub repo (e.g. `rabb1tl0ka/repo-roadmap-test`) to run `install.sh` and `upgrade.sh` end-to-end so regressions like leftover files and double imports get caught before shipping. |
+| [challenge-bye-headless-permissions/](challenge-bye-headless-permissions/challenge-bye-headless-permissions.md) | 🚧 in-progress | high | @rabb1tl0ka | The `bye` skill fails silently in headless (`--print`) mode because Claude Code skips workspace trust and requires explicit Write permission rules that no tested format has matched yet. |
 | [challenge-upgrade-sh-e2e-test/](challenge-upgrade-sh-e2e-test/challenge-upgrade-sh-e2e-test.md) | 🔍 review | medium | | `upgrade.sh` shipped with a broken `gh` flag (`-C`) that wasn't caught because there's no end-to-end test covering the `--create-pr` path against a real git repo and `gh` CLI. |
 
 *(The table above is automatically maintained by Claude Code. Do not edit it manually.)*
