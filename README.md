@@ -54,14 +54,6 @@ Can also be invoked programmatically from a shell function (e.g. an end-of-day `
 
 ---
 
-## Related Projects
-
-### Voice Skills
-
-Looking for voice recording, transcription, and AI-first note-taking? Check out **[claude-voice](https://github.com/rabb1tl0ka/claude-voice)** - a complete voice interface system with MCP server, voice tools, and skills for `/voice_note`, `/voice_prompt`, `/listen_start`, and `/listen_stop`.
-
----
-
 ## Contributing
 
 Feel free to submit issues and pull requests. When adding a new skill:
