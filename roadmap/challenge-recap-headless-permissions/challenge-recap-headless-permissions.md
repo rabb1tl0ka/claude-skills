@@ -4,22 +4,22 @@ priority: high
 owner: "@rabb1tl0ka"
 ---
 
-# Challenge: /bye headless Write permission
+# Challenge: /recap headless Write permission
 
 ## One-Line Overview
-The `bye` skill fails silently in headless (`--print`) mode because Claude Code skips workspace trust and requires explicit Write permission rules that no tested format has matched yet.
+The `recap` skill fails silently in headless (`--print`) mode because Claude Code skips workspace trust and requires explicit Write permission rules that no tested format has matched yet.
 
 ## What's the problem
 
-`bye()` runs `claude --print "/bye"` at shutdown. In this mode, Claude Code skips workspace trust (by design — the docs say so explicitly). That means Write tool calls need an explicit allow rule in `settings.json`. 
+`bye-recap()` runs `claude --print "/recap"` before shutdown. In this mode, Claude Code skips workspace trust (by design — the docs say so explicitly). That means Write tool calls need an explicit allow rule in `settings.json`. 
 
 Every format tried so far fails silently — Claude outputs "waiting for permission" text and exits 0, but the file is never written. The Bash commands have a secondary issue: multi-line commands starting with `WORK_DAY=...` don't match any permission pattern because Claude Code's Bash matching appears not to match across newlines.
 
-Interactive `test_bye` works because workspace trust is applied when the user approves the `~` directory.
+Interactive `test_recap` works because workspace trust is applied when the user approves the `~` directory.
 
 ## Why it matters
 
-`bye()` is a shutdown script — it runs unattended. Silent failure means no session log is written and no error is surfaced. The vault backup proceeds and the machine shuts down regardless.
+`bye-recap()` is a shutdown script — it runs unattended. Silent failure means no session log is written and no error is surfaced. The vault backup proceeds and the machine shuts down regardless.
 
 ## Constraints
 
@@ -37,7 +37,7 @@ Interactive `test_bye` works because workspace trust is applied when the user ap
 | `Write(//home/rabb1tl0ka/.../daily-claude-sessions/*)` | Failed | Same with `*` |
 | `Write(//home/rabb1tl0ka/.../daily-claude-sessions/claude-session-*)` | Failed | Specific prefix, still `//` |
 | `Write(/home/rabb1tl0ka/.../daily-claude-sessions/claude-session-*)` | **Untested** | Single slash + specific prefix — last format to try |
-| `--permission-mode acceptEdits` on bye/test_bye_headless | Open | Auto-approves all Write/Edit calls; semantically correct but Bruno wants to exhaust settings.json options first |
+| `--permission-mode acceptEdits` on bye-recap/test_recap_headless | Open | Auto-approves all Write/Edit calls; semantically correct but Bruno wants to exhaust settings.json options first |
 | Bash: `Bash(WORK_DAY=*)` in settings.json | Untested | Covers multi-line cache check command if `*` matches newlines |
 
 ## Open questions

@@ -1,12 +1,12 @@
 ---
-name: bye
-description: End-of-day ritual. Extracts Claude Code sessions from the last 24h and writes a structured session log to $CLAUDE_SKILLS_VAULT/user/private/daily-claude-sessions/ (default: ~/2ndbrain). Invoked automatically by the bye() shell function before vault backup and shutdown.
+name: recap
+description: Extracts Claude Code sessions from the last 24h and writes a structured session log to $CLAUDE_SKILLS_VAULT/user/private/daily-claude-sessions/ (default: ~/2ndbrain). Can be run standalone or invoked by bye-recap() before vault backup and shutdown.
 argument-hint: (none)
 ---
 
-# /bye — Daily Note Writer
+# /recap — Daily Session Summary
 
-Write today's session log based on Claude Code sessions from the last 24 hours. Then clean up. This runs non-interactively at shutdown.
+Write today's session log based on Claude Code sessions from the last 24 hours. Then clean up.
 
 ---
 
@@ -37,7 +37,7 @@ now = datetime.now()
 d = (now - timedelta(days=1)).strftime('%Y-%m-%d') if now.hour < 4 else now.strftime('%Y-%m-%d')
 print(d)
 ")
-CACHE_FILE="$HOME/.claude/skills/bye/cache/${WORK_DAY}.json"
+CACHE_FILE="$HOME/.claude/skills/recap/cache/${WORK_DAY}.json"
 ls "$CACHE_FILE" 2>/dev/null && echo "CACHE_EXISTS" || echo "NO_CACHE"
 ```
 
@@ -45,7 +45,7 @@ ls "$CACHE_FILE" 2>/dev/null && echo "CACHE_EXISTS" || echo "NO_CACHE"
 - If no cache → run the extractor:
 
 ```bash
-python3 ~/.claude/skills/bye/extract_sessions.py
+python3 ~/.claude/skills/recap/extract_sessions.py
 ```
 
 The extractor writes the cache automatically and prints the same JSON to stdout.
@@ -147,13 +147,13 @@ After successfully writing the note, save the high-water mark from the cache (so
 python3 -c "
 import json, sys
 from pathlib import Path
-cache = json.loads(Path('$HOME/.claude/skills/bye/cache/<work_day_date>.json').read_text())
+cache = json.loads(Path('$HOME/.claude/skills/recap/cache/<work_day_date>.json').read_text())
 covered_until = cache.get('covered_until')
 if covered_until:
-    state = Path('$HOME/.claude/skills/bye/state.json')
+    state = Path('$HOME/.claude/skills/recap/state.json')  # matches STATE_FILE in extractor
     state.write_text(json.dumps({'last_covered_until': covered_until}))
 "
-rm -f ~/.claude/skills/bye/cache/<work_day_date>.json
+rm -f ~/.claude/skills/recap/cache/<work_day_date>.json
 ```
 
 ---

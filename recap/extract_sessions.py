@@ -13,8 +13,8 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 
-CACHE_DIR = Path.home() / ".claude" / "skills" / "bye" / "cache"
-STATE_FILE = Path.home() / ".claude" / "skills" / "bye" / "state.json"
+CACHE_DIR = Path.home() / ".claude" / "skills" / "recap" / "cache"
+STATE_FILE = Path.home() / ".claude" / "skills" / "recap" / "state.json"
 PROJECTS_DIR = Path.home() / ".claude" / "projects"
 HOURS_BACK = 24
 WORKDAY_CUTOFF_HOUR = 4  # before 4AM = previous workday
