@@ -10,9 +10,6 @@ Skills are markdown files that extend Claude Code's capabilities. Each skill def
 
 1. Copy the skill folder to your Claude Code skills directory:
    ```bash
-   # For project-specific skills
-   cp -r <skill-name> /path/to/your/project/.claude/skills/
-
    # For global skills (available in all projects)
    cp -r <skill-name> ~/.claude/skills/
    ```
@@ -25,36 +22,35 @@ Skills are markdown files that extend Claude Code's capabilities. Each skill def
 
 ## Available Skills
 
-### `/calendar`
+### `/recap`
 
-Query your Google Calendar for events, availability, scheduling conflicts, and meeting prep needs.
+Summarizes your Claude Code sessions from the last 24h (or since the last saved timestamp) and writes a structured session log to your vault.
 
 **Features:**
-- View events by day, week, or date range
-- Find available time blocks
-- Check for scheduling conflicts
-- Get meeting prep summaries
+- Extracts sessions across all projects from `~/.claude/projects/`
+- Tracks a high-water mark so re-runs only cover new sessions
+- Writes a structured daily note: achievements, projects, learnings, open threads, and Claude's observations
+- Appends to an existing note if one already exists for the day
+- Vault path configurable via `$CLAUDE_SKILLS_VAULT` (default: `~/2ndbrain`)
 
 **Setup:**
 
-1. Get your Google Calendar iCal feed URL:
-   - Go to [Google Calendar](https://calendar.google.com)
-   - Click the gear icon → Settings
-   - Click on your calendar name in the left sidebar
-   - Scroll to "Integrate calendar"
-   - Copy the "Secret address in iCal format" URL
+1. Copy the skill to your Claude Code skills directory:
+   ```bash
+   cp -r recap ~/.claude/skills/
+   ```
 
-2. Open `calendar/SKILL.md` and replace `YOUR_ICAL_FEED_URL_HERE` with your URL
-
-3. Copy the skill to your Claude Code skills directory
+2. Optionally set `CLAUDE_SKILLS_VAULT` in your shell profile to point to your vault:
+   ```bash
+   export CLAUDE_SKILLS_VAULT=~/path/to/your/vault
+   ```
 
 **Usage:**
 ```
-/calendar today
-/calendar free thursday afternoon
-/calendar prep
-/calendar this week
+/recap
 ```
+
+Can also be invoked programmatically from a shell function (e.g. an end-of-day `bye()` that calls `/recap` before syncing and shutting down).
 
 ---
 
