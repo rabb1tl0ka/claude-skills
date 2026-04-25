@@ -20,37 +20,18 @@ Skills are markdown files that extend Claude Code's capabilities. Each skill def
 
 ---
 
+## Vault Skills
+
+Skills that power the 2nd brain vault live in a separate repo:
+**[rabb1tl0ka/ai-2ndbrain](https://github.com/rabb1tl0ka/ai-2ndbrain)** → `claude-skills/`
+
+These are installed automatically when you run `setup.sh` from that repo. Current vault skills: `/recap`.
+
+---
+
 ## Available Skills
 
-### `/recap`
-
-Summarizes your Claude Code sessions from the last 24h (or since the last saved timestamp) and writes a structured session log to your vault.
-
-**Features:**
-- Extracts sessions across all projects from `~/.claude/projects/`
-- Tracks a high-water mark so re-runs only cover new sessions
-- Writes a structured daily note: achievements, projects, learnings, open threads, and Claude's observations
-- Appends to an existing note if one already exists for the day
-- Vault path configurable via `$CLAUDE_SKILLS_VAULT` (default: `~/2ndbrain`)
-
-**Setup:**
-
-1. Copy the skill to your Claude Code skills directory:
-   ```bash
-   cp -r recap ~/.claude/skills/
-   ```
-
-2. Optionally set `CLAUDE_SKILLS_VAULT` in your shell profile to point to your vault:
-   ```bash
-   export CLAUDE_SKILLS_VAULT=~/path/to/your/vault
-   ```
-
-**Usage:**
-```
-/recap
-```
-
-Can also be invoked programmatically from a shell function (e.g. an end-of-day `bye()` that calls `/recap` before syncing and shutting down).
+*(Non-vault skills listed here)*
 
 ---
 
