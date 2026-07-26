@@ -31,7 +31,17 @@ These are installed automatically when you run `setup.sh` from that repo. Curren
 
 ## Available Skills
 
-*(Non-vault skills listed here)*
+### `/action-board`
+
+Scans any repo for `## Actions` checkbox sections across markdown files and prints a consolidated, prioritized board of what's still open — overdue first, then upcoming, then no due date.
+
+**Setup:** first run asks for a `default_owner` name (used when a checkbox item has no explicit `(owner: ...)` tag) and saves it to `.claude/action-board.config.yaml` in that repo. No other config needed.
+
+### `/flashcards`
+
+Quizzes you with multiple-choice flashcards generated from your own course/chapter notes in the current directory. Caches question banks locally and logs every answer so weak topics surface over time.
+
+**Setup:** none — works out of the box in any directory with a `CLAUDE.md` (Progress section) and chapter note files.
 
 ---
 
