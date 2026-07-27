@@ -43,6 +43,18 @@ Quizzes you with multiple-choice flashcards generated from your own course/chapt
 
 **Setup:** none — works out of the box in any directory with a `CLAUDE.md` (Progress section) and chapter note files.
 
+### `/github-commit`
+
+Groups the working tree's changes by topic/theme and proposes one commit per group, only staging and committing after you approve the full plan. Never pushes.
+
+**Setup:** none — works in any git repo.
+
+### `/github-branch-publish`
+
+Runs the same grouped-commit flow as `/github-commit`, then pushes to a branch and opens a PR — commit to PR in one shot. Defaults to the branch a repo's own `CLAUDE.md` conventions point to (e.g. a per-person branch), or asks if none is documented.
+
+**Setup:** none — works in any git repo with a `gh` CLI available for the PR step.
+
 ---
 
 ## Contributing
