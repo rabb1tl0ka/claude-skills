@@ -23,6 +23,7 @@ Any `.md` file in a repo may contain an `## Actions` section:
 - Checkbox syntax: `- [ ]` open, `- [x]` (case-insensitive) done.
 - Due date is optional, appended in parentheses at the end of the line: `(due: yyyy-MM-dd)`. No suffix = no due date.
 - Owner is optional, appended in parentheses: `(owner: name)`. No suffix defaults to the configured `default_owner` (see **Config file** below). Order of the two suffixes doesn't matter when parsing.
+- The owner tag may list multiple people comma-separated, e.g. `(owner: Bruno Coelho, Ana Markovic)`, for genuinely joint actions. Store the parsed `owner` as the raw string as-is — matching against it (see `--owner` below) is substring-based, not exact-equality, specifically so each named person in a joint tag is matched.
 - Detail link is optional: a `[detail](relative/path.md)` markdown link anywhere in the description points to a file with more context than the one-liner can hold (a fuller spec, a roadmap item, a doc). Useful when one file's `## Actions` section is a rollup pointing at several other files — e.g. an index/README listing items that each live in their own file. Strip it from the displayed description and use its target as the link in the report (Step 4) instead of the host file.
 - The section runs until the next heading of equal or higher level (`#` or `##`), or end of file.
 
@@ -45,7 +46,7 @@ Write the answer as `default_owner` in the config file, then proceed with the ru
 - **path** (optional): directory to scope the scan to. Default: current working directory.
 - **--all**: also include completed (`[x]`) items in the report (as a collapsed count, not itemized, unless the user then asks to see them). Default: open items only.
 - **--overdue**: only show open items whose due date is before today.
-- **--owner <name>**: only show open items owned by `name` (case-insensitive, matches the `(owner: ...)` tag, defaulting untagged items to `default_owner`). Default: show all owners.
+- **--owner <name>**: only show open items owned by `name` — case-insensitive **substring** match against the parsed `owner` tag (so `--owner "Ana Markovic"` matches an item tagged `owner: Bruno Coelho, Ana Markovic`), defaulting untagged items to `default_owner`. Default: show all owners.
 
 ## Step 1: Find candidate files
 
@@ -57,7 +58,7 @@ For each shortlisted file, read it and extract the content between `## Actions` 
 
 ## Step 3: Filter and sort
 
-- Filter per Step 0 args (open-only by default; overdue-only if `--overdue`; owner-only if `--owner <name>`, case-insensitive match against the parsed `owner`).
+- Filter per Step 0 args (open-only by default; overdue-only if `--overdue`; owner-only if `--owner <name>`, case-insensitive substring match against the parsed `owner`).
 - Sort: overdue first (oldest due date first), then upcoming due dates ascending, then no-due-date items last. Preserve file discovery order within each group.
 - "Overdue" = due date is before today's date.
 
