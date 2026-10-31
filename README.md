@@ -55,6 +55,12 @@ Runs the same grouped-commit flow as `/github-commit`, then pushes to a branch a
 
 **Setup:** none — works in any git repo with a `gh` CLI available for the PR step.
 
+### `/book-print-prep`
+
+Turns a book PDF into a print file for home printing and loose-leaf (double fan) binding: duplex A4 sheets, two leaves per sheet, cut in half into A5 leaves, in cut-and-stack order. Handles scanned PDFs with two book pages per PDF page and born-digital PDFs with one page per PDF page. Previews the scan cleanup on 3 pages, builds a one-sheet test, verifies page pairing, and only then runs the full build.
+
+**Setup:** needs the `book-print-prep` tool (`bookprep.py`) at `~/code/rabb1tl0ka/book-print-prep/` (currently a local-only repo), plus poppler (`pdftoppm`, `pdfunite`), ImageMagick `montage`, and Python with Pillow and numpy.
+
 ---
 
 ## Contributing
