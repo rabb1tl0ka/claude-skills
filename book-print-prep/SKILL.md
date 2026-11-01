@@ -62,10 +62,29 @@ Run the same command without `--test-sheet`. Then verify: output page count equa
 Give him exactly this, adapted with the real numbers (sheet count, file path):
 
 - Print dialog: Two-sided **Short Edge (Flip)**, Orientation **Landscape**, Paper **A4**, Scale **100%**, Pages per side **1**, Color **grayscale / black ink only**.
-- Print in batches of 20 to 30 sheets, keeping the order.
+- Print in batches of 10 sheets (20 PDF pages, odd start and even end, e.g. 21-40). Larger batches hit false paper-jam and low-ink stops on a home inkjet. Give him the expected front page numbers per batch (left and right piles) so he can verify.
+- The Face Up output tray reverses each batch, so sort the sheets by front page number ascending before cutting. Count the sheets: if a batch stops early, ask for the front page numbers he sees to work out the missing range.
 - Cut each sheet in half along the center ticks with a trimmer or guillotine (a knife without a steel ruler tears the paper).
-- Stack all **left halves** in order, then all **right halves** under them. That is the book order.
+- Stack all **left halves** in order, then all **right halves** under them. That is the book order. Each new batch goes under the previous one, on both piles.
+- Binding tip (cartolina cover): glue the spine, optionally add a cotton mull strip, then a wrap-around cartolina cover (200-250 g/m2, grain parallel to the spine) scored at the spine and with a hinge crease about 6-8 mm in. Press the block flat between boards with even weight (spring clamps put uneven pressure and the shoulders slide out of square). Thread lines across the spine are not needed when a cover is glued on.
 - If the printer or flip setting is new or the backs come out upside down or swapped, print `--test-sheet` first and rebuild with `--flip long`.
+
+## Optional: print and bind a book in parts (only if Bruno asks)
+
+Use when Bruno wants to read the first half now and print the rest later, as two bound books (Part One, Part Two).
+
+**Do not just print half the sheets of the full PDF.** In the cut-and-stack layout the left halves are the first half of the book and the right halves are the second half. The first half of the sheets gives the first quarter plus the third quarter, which cannot be bound as a book.
+
+**Instead build one PDF per part** with the page-range flags, so each part is its own complete cut-and-stack book with its own sheet count:
+
+- Part One: `--first A --last N`. Part Two: `--first N+1 --last B`.
+- Pick N at a chapter boundary near the middle: read the table of contents (`pdftotext` on the first pages) and propose a split that gives roughly equal halves. Let Bruno confirm.
+- Spread mode: N is a spread number, and each part starts on a left page, so the automatic blank front keeps working.
+- Single mode: re-derive `--first-side` for Part Two from its own test sheet, because page N+1 may be a left-hand page (then `--first-side verso`, which adds a blank recto in front).
+- Use separate work dirs and names: `<slug>-part1`, `<slug>-part2`, and outputs `<slug>-part1-A4.pdf`, `<slug>-part2-A4.pdf`. Run the cleanup preview and test sheet once per part.
+- The two parts cannot be merged into one bound volume later. If Bruno might want one volume, build the whole book instead.
+
+Related, and true for the whole-book layout: while a book is printing in batches, the left pile is the first half of the book in order, so Bruno can start reading it before the right pile exists.
 
 ## Gotchas
 
