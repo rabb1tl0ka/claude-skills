@@ -19,6 +19,10 @@ The tool lives at `~/code/rabb1tl0ka/book-print-prep/bookprep.py` (README next t
 - **`notes-margins`** (a.k.a. "preset B", "the Timaeus margins", "roomy margins"): `--margin 18 --gutter 15`. Text shrinks to ~90% of the original print size. On the Timaeus (Cornford) A5 leaf that gave a 91×160 mm text block, 36 mm at the spine (glue room for double fan), 21 mm outer and 25 mm top/bottom for notes. Use for books whose pages are crammed with text. The exact mm depend on the book's text-block shape (tall and narrow blocks are limited by height), so measure the rendered leaf and report the real numbers.
 - To compare options, build `--test-sheet N` once per setting and show Bruno a labelled side-by-side PNG, opened with `xdg-open` (images you Read are not visible to him).
 
+## Resuming a print run
+
+If Bruno says he is continuing or resuming printing a book, or if a `<book> [PRINT-PROGRESS].md` exists next to the book PDF, read it first and pick up from its "Next step". It holds the batch table with status, sheets to reprint, and print settings. Update it whenever Bruno reports progress (batches done, bad sheets: work out sheet j's PDF pages as 2j-1 and 2j, 1-based). Offer to create one when a print run is interrupted.
+
 ## Step 1: Look before deciding
 
 1. `pdfinfo` (pages, page size) and `pdffonts` / `pdfimages -list` (is there a real text layer or only page scans?).
