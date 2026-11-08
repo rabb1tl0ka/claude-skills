@@ -12,7 +12,12 @@ The tool lives at `~/code/rabb1tl0ka/book-print-prep/bookprep.py` (README next t
 
 - A4 sheets, landscape, duplex, cut in half into A5 leaves. Do not offer other paper sizes.
 - Printer flip is **Short Edge (Flip)** with **Landscape** orientation (verified on Bruno's printer).
-- Defaults: 10 mm margin, 8 mm extra spine margin per leaf. Only change if Bruno asks.
+- Defaults: 10 mm margin, 8 mm extra spine margin per leaf. Only change if Bruno asks or names a preset.
+
+## Presets (only when Bruno asks for one by name)
+
+- **`notes-margins`** (a.k.a. "preset B", "the Timaeus margins", "roomy margins"): `--margin 18 --gutter 15`. Text shrinks to ~90% of the original print size. On the Timaeus (Cornford) A5 leaf that gave a 91×160 mm text block, 36 mm at the spine (glue room for double fan), 21 mm outer and 25 mm top/bottom for notes. Use for books whose pages are crammed with text. The exact mm depend on the book's text-block shape (tall and narrow blocks are limited by height), so measure the rendered leaf and report the real numbers.
+- To compare options, build `--test-sheet N` once per setting and show Bruno a labelled side-by-side PNG, opened with `xdg-open` (images you Read are not visible to him).
 
 ## Step 1: Look before deciding
 
