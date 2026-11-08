@@ -1,7 +1,7 @@
 ---
 name: book-print-prep
 description: Prepares a book PDF for home printing and loose-leaf (double fan) binding. Output is a duplex PDF on A4 sheets, two leaves per sheet, to be cut in half into A5 leaves, in cut-and-stack order. Handles scanned PDFs with two book pages per PDF page (landscape spreads, like Origen) and born-digital PDFs with one page per PDF page (like Synesius). Cleans scans (drops red ink, whitens yellowed paper, fades pencil, crops margin notes), adds a spine margin, builds a test sheet and verifies page pairing before the full build. Triggers on "/book-print-prep <pdf>", "prep this book for printing", "get this book ready to print and bind".
-argument-hint: <path to the book PDF> [optional: deviations, e.g. "fade pencil harder"]
+argument-hint: <path to the book PDF> [--skip-gap-check] [optional: deviations, e.g. "fade pencil harder"]
 ---
 
 # /book-print-prep: book PDF to cut-and-stack A4 print file
@@ -25,6 +25,23 @@ The tool lives at `~/code/rabb1tl0ka/book-print-prep/bookprep.py` (README next t
    - `--first` / `--last`: skip the cover and any trailing junk.
    - Pure handwriting or notes pages with no book text: list them for `--blank` (spread mode: `290R`, `287L`; single mode: bare page numbers). Handwriting in the margins is cropped automatically; handwriting inside the text block is not, so only blank pages that have no real text.
    - Tell Bruno what you decided and why in a few lines. Pages that have real text but handwriting in the text block stay in, and are flagged to him.
+
+## Step 1b: Missing-page check (skip only with `--skip-gap-check`)
+
+Scans silently drop pages: the Timaeus scan was missing 5 whole leaves (10 pages of text) and Gnosis of the Mind was missing pp. 64-65, both found only after the print file was "ready". Run this check on every book unless Bruno passes `--skip-gap-check` (e.g. a book he already printed and read through). If skipped, say so in the hand-over.
+
+1. Get the printed page number of every book page:
+   - Text layer present: `pdftotext -layout`, split on `\f`, take the number from the header line (spread mode: left number at the start, right at the end) or the last short line.
+   - Scans only: render at 100 dpi and OCR a strip (`convert -gravity south -crop 100%x8%` then `tesseract --psm 6`; try the top strip too, depending on where the book puts its numbers). Run in parallel (`xargs -P 12`).
+2. Compute `offset = book page - PDF position` (spread mode: `L - 2*pdf_page`). OCR is noisy, so don't check page to page: take a histogram of offsets. The body should hold one dominant offset. A **run** of a different offset that continues afterwards means pages are missing (offset falls) or extra (offset rises). Lone odd values are misreads.
+3. Roman-numbered front matter: read the numerals from the header and check that they step by 1 (single) or 2 (spread).
+4. For every suspected gap, look at the page before and after it (end of one page, start of the next). A break mid-sentence or a skipped section start confirms it. A blank page or part-title missing before a section is harmless; note it and move on.
+5. If real pages are missing:
+   - Tell Bruno the exact book pages and the evidence before building anything.
+   - Look for another scan on archive.org (`advancedsearch.php`, then `/metadata/<id>`; skip `access-restricted-item: true`). Save the copies Bruno wants next to the original in the books folder, named `<Book> - archive.org <identifier> (<pages>pp, <dpi>).pdf`.
+   - A higher-dpi copy of the same scan has the same gaps. Check every candidate for the missing pages themselves.
+   - Patch: render the donor pages so their text block matches the main source. Measure the scale ratio from 2+ book pages present in both sources, using text-block bounding boxes with the scan border excluded. Then paste each page onto a canvas the size of the main source, aligned to a same-side neighbour's text box. Flatten grey backgrounds but leave the contrast to `--clean` (otherwise the patched pages come out too bold). Insert with `pdfseparate` + `pdfunite`. Save the result next to the original as `<Book> - complete (<what was patched from where>).pdf` and build from that.
+   - Run a test sheet that contains a patched page next to an original page.
 
 ## Step 2: Cleanup preview (scans only, skip for born-digital)
 
@@ -58,6 +75,8 @@ Before the full cleanup run (minutes for a few hundred pages), check what the cl
 Run the same command without `--test-sheet`. Then verify: output page count equals 2 times the sheet count in the tool's summary line, and view a montage of ~6 sheets (first, middle, last) for a last sanity look. For scans, report remaining pencil marks inside text areas as known flaws and offer `--levels 0.65 0.92` (thins the letters a little).
 
 ## Step 5: Hand over to Bruno
+
+First copy the final build next to the source PDF in the books folder as `<source name without .pdf> [PRINT-BOOK].pdf`. Bruno's goal is one ready-to-print file per book that he can print again later. One file per book: never leave a book as a main build plus separate patch sheets. Delete the test sheets and superseded builds from `out/`.
 
 Give him exactly this, adapted with the real numbers (sheet count, file path):
 
